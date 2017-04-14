@@ -1,5 +1,5 @@
 <?php
-$rootDir  = dirname(__FILE__);
+$rootDir  = ""; //тут прописываем путь аналогичный конфигам admin или каталог
 $siteName = $_SERVER['HTTP_HOST'];
 
 // HTTP
@@ -10,18 +10,18 @@ define('HTTP_CATALOG', 'http://'  . $siteName);
 define('HTTPS_SERVER',  'https://' . $siteName . '/export/');
 define('HTTPS_CATALOG', 'http://'  . $siteName);
 // DIR
-define('DIR_MODIFICATION',  $rootDir . '/subdomains/oc23/httpdocs/system/storage/modification/');
-define('DIR_APPLICATION',   $rootDir . '/subdomains/oc23/httpdocs/admin/');
-define('DIR_LANGUAGE',      $rootDir . '/subdomains/oc23/httpdocs/export/language/');
-define('DIR_TEMPLATE',      $rootDir . '/subdomains/oc23/httpdocs/export/view/template/');
-define('DIR_DOWNLOAD',      $rootDir . '/subdomains/oc23/httpdocs/system/storage/download/');
-define('DIR_SYSTEM',        $rootDir . '/subdomains/oc23/httpdocs/system/');
-define('DIR_CATALOG',       $rootDir . '/subdomains/oc23/httpdocs/catalog/');
-define('DIR_CONFIG',        $rootDir . '/subdomains/oc23/httpdocs/system/config/');
-define('DIR_UPLOAD',        $rootDir . '/subdomains/oc23/httpdocs/system/storage/upload/');
-define('DIR_IMAGE',         $rootDir . '/subdomains/oc23/httpdocs/image/');
-define('DIR_CACHE',         $rootDir . '/subdomains/oc23/httpdocs/system/storage/cache/');
-define('DIR_LOGS',          $rootDir . '/subdomains/oc23/httpdocs/system/storage/logs/');
+define('DIR_MODIFICATION',  $rootDir . '/system/storage/modification/');
+define('DIR_APPLICATION',   $rootDir . '/admin/');
+define('DIR_LANGUAGE',      $rootDir . '/export/language/');
+define('DIR_TEMPLATE',      $rootDir . '/export/view/template/');
+define('DIR_DOWNLOAD',      $rootDir . '/system/storage/download/');
+define('DIR_SYSTEM',        $rootDir . '/system/');
+define('DIR_CATALOG',       $rootDir . '/catalog/');
+define('DIR_CONFIG',        $rootDir . '/system/config/');
+define('DIR_UPLOAD',        $rootDir . '/system/storage/upload/');
+define('DIR_IMAGE',         $rootDir . '/image/');
+define('DIR_CACHE',         $rootDir . '/system/storage/cache/');
+define('DIR_LOGS',          $rootDir . '/system/storage/logs/');
 
 // DB заполняем из admin/config.php
 define('DB_HOSTNAME',   '');
