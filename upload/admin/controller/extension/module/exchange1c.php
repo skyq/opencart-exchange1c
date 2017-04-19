@@ -101,9 +101,7 @@ class ControllerExtensionModuleExchange1c extends Controller
         $data['entry_flush_manufacturer'] = $this->language->get('entry_flush_manufacturer');
         $data['entry_config_price_type'] = $this->language->get('entry_config_price_type');
         $data['entry_fill_parent_cats'] = $this->language->get('entry_fill_parent_cats');
-        $data['entry_seo_url_translit'] = $this->language->get('entry_seo_url_translit');
         $data['entry_flush_attribute'] = $this->language->get('entry_flush_attribute');
-        $data['entry_seo_url_deadcow'] = $this->language->get('entry_seo_url_deadcow');
         $data['entry_apply_watermark'] = $this->language->get('entry_apply_watermark');
         $data['entry_flush_quantity'] = $this->language->get('entry_flush_quantity');
         $data['entry_customer_group'] = $this->language->get('entry_customer_group');
@@ -112,6 +110,7 @@ class ControllerExtensionModuleExchange1c extends Controller
         $data['entry_stock_status'] = $this->language->get('entry_stock_status');
         $data['text_price_default'] = $this->language->get('text_price_default');
         $data['text_image_manager'] = $this->language->get('text_image_manager');
+        $data['help_entry_seo_url'] = $this->language->get('help_entry_seo_url');
         $data['entry_username'] = $this->language->get('entry_username');
         $data['entry_password'] = $this->language->get('entry_password');
         $data['entry_allow_ip'] = $this->language->get('entry_allow_ip');
@@ -125,7 +124,6 @@ class ControllerExtensionModuleExchange1c extends Controller
         $data['text_clear'] = $this->language->get('text_clear');
         $data['entry_name'] = $this->language->get('entry_name');
         $data['no_image'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);
-
 
         $data['entry_relatedoptions'] = $this->language->get('entry_relatedoptions');
         $data['entry_dont_use_artsync'] = $this->language->get('entry_dont_use_artsync');
@@ -259,6 +257,11 @@ class ControllerExtensionModuleExchange1c extends Controller
                     'priority'          => 0,
                 ];
             }
+        }
+        if (isset($this->request->post['exchange1c_seo_url'])) {
+            $data['exchange1c_seo_url'] = $this->request->post['exchange1c_seo_url'];
+        } else {
+            $data['exchange1c_seo_url'] = $this->config->get('exchange1c_seo_url');
         }
         if (isset($this->request->post['exchange1c_root_category_is_catalog'])) {
             $data['exchange1c_root_category_is_catalog'] = $this->request->post['exchange1c_root_category_is_catalog'];
@@ -588,13 +591,6 @@ class ControllerExtensionModuleExchange1c extends Controller
             $this->model_extension_exchange1c->parseImport($filename, $language_id);
             if ($this->config->get('exchange1c_fill_parent_cats')) {
                 $this->model_extension_exchange1c->fillParentsCategories();
-            }
-            // Только если выбран способ deadcow_seo пока отключил
-            if ($this->config->get('exchange1c_seo_url') == 1) {
-                $this->load->model('module/deadcow_seo');
-                $this->model_module_deadcow_seo->generateCategories($this->config->get('deadcow_seo_categories_template'), 'Russian');
-                $this->model_module_deadcow_seo->generateProducts($this->config->get('deadcow_seo_products_template'), 'Russian');
-                $this->model_module_deadcow_seo->generateManufacturers($this->config->get('deadcow_seo_manufacturers_template'), 'Russian');
             }
 
             if (!$manual) {

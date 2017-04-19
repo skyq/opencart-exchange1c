@@ -99,6 +99,20 @@
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
+                                       for="input-exchange1c-seo-url">
+                                    <span data-toggle="tooltip"
+                                          title="<?php echo $help_entry_seo_url; ?>"><?php echo $entry_seo_url; ?>
+                                    </span>
+                                </label>
+                                <div class="col-sm-10">
+                                    <label class="radio"><input type="checkbox" value="1"
+                                                                       id="input-exchange1c-seo-url"
+                                                                       name="exchange1c_seo_url" <?php echo ($exchange1c_seo_url == 1)? 'checked' : ''; ?>
+                                        ></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
                                        for="input-exchange1c-root-category-is-catalog">
                                     <span data-toggle="tooltip"
                                           title="<?php echo $help_entry_root_category_is_catalog; ?>"><?php echo $entry_root_category_is_catalog; ?>

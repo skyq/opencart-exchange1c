@@ -332,8 +332,7 @@ class ModelExtensionExchange1c extends Model
                                         $manufacturer_id = $this->model_catalog_manufacturer->addManufacturer($data_manufacturer);
                                         $data['manufacturer_id'] = $manufacturer_id;
 
-                                        //только если тип 'translit'
-                                        if ($this->config->get('exchange1c_seo_url') == 2) {
+                                        if ($this->config->get('exchange1c_seo_url')) {
                                             $man_name = "brand-" . $manufacturer_name;
                                             $this->setSeoURL('manufacturer_id', $manufacturer_id, $man_name);
                                         }
@@ -428,8 +427,8 @@ class ModelExtensionExchange1c extends Model
                 $this->rootUID = $id;
             }
             //только если тип 'translit'
-            if ($this->config->get('exchange1c_seo_url') == 2) {
-                $cat_name = "category-" . $data['parent_id'] . "-" . $data['category_description'][$language_id]['name'];
+            if ($this->config->get('exchange1c_seo_url')) {
+                $cat_name = "cat-" . $data['parent_id'] . "-" . $data['category_description'][$language_id]['name'];
                 $this->setSeoURL('category_id', $category_id, $cat_name);
             }
         }
@@ -479,10 +478,35 @@ class ModelExtensionExchange1c extends Model
 
     private function setSeoURL($url_type, $element_id, $element_name)
     {
-        $this->db->query("DELETE FROM `" . DB_PREFIX . "url_alias` WHERE `query` = '" . $url_type . "=" . $element_id . "'");
-        $this->db->query("INSERT INTO `" . DB_PREFIX . "url_alias` SET `query` = '" . $url_type . "=" . $element_id . "', `keyword`='" . $this->transString($element_name) . "'");
+        $this->writeLog('setSeoURL for url_type: ' . $url_type);
+        $this->writeLog('————————————— id: ' . $element_id);
+        $this->writeLog('————————————— name: ' . $element_name);
+        $text = "DELETE FROM `" . DB_PREFIX . "url_alias` WHERE `query` = '" . $url_type . "=" . $element_id . "'";
+        $this->writeLog('SQL : ' . $text);
+        $this->db->query($text);
+        $text = "INSERT INTO `" . DB_PREFIX . "url_alias` SET `query` = '" . $url_type . "=" . $element_id . "', `keyword`='" . $this->transString($element_name) . "'";
+        $this->writeLog('SQL : ' . $text);
+        $this->db->query($text);
     }
+    /**
+     * Транслиетрирует RUS->ENG
+     * @param string $aString
+     * @return string type
+     */
+    private function transString($aString) {
+        $rus = array(" ", "/", "*", "-", "+", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", "[", "]", "{", "}", "~", ";", ":", "'", "\"", "<", ">", ",", ".", "?", "А", "Б", "В", "Г", "Д", "Е", "З", "И", "Й", "К", "Л", "М", "Н", "О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ъ", "Ы", "Ь", "Э", "а", "б", "в", "г", "д", "е", "з", "и", "й", "к", "л", "м", "н", "о", "п", "р", "с", "т", "у", "ф", "х", "ъ", "ы", "ь", "э", "ё",  "ж",  "ц",  "ч",  "ш",  "щ",   "ю",  "я",  "Ё",  "Ж",  "Ц",  "Ч",  "Ш",  "Щ",   "Ю",  "Я");
+        $lat = array("-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-", "-",  "-", "-", "-", "-", "-", "-", "a", "b", "v", "g", "d", "e", "z", "i", "y", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "",  "i", "",  "e", "a", "b", "v", "g", "d", "e", "z", "i", "j", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "",  "i", "",  "e", "yo", "zh", "ts", "ch", "sh", "sch", "yu", "ya", "yo", "zh", "ts", "ch", "sh", "sch", "yu", "ya");
 
+        $string = str_replace($rus, $lat, $aString);
+
+        while (mb_strpos($string, '--')) {
+            $string = str_replace('--', '-', $string);
+        }
+
+        $string = strtolower(trim($string, '-'));
+
+        return $string;
+    }
     /**
      * Функция добавляет корневую категорию и всех детей
      *
@@ -516,8 +540,7 @@ class ModelExtensionExchange1c extends Model
                 $this->CATEGORIES[$id] = $category_id;
             }
 
-            //только если тип 'translit'
-            if ($this->config->get('exchange1c_seo_url') == 2) {
+            if ($this->config->get('exchange1c_seo_url')) {
                 $cat_name = "category-" . $data['parent_id'] . "-" . $data['category_description'][$language_id]['name'];
                 $this->setSeoURL('category_id', $category_id, $cat_name);
             }
@@ -635,8 +658,7 @@ class ModelExtensionExchange1c extends Model
         }
         // Устанавливаем SEO URL
         if ($product_id) {
-            //только если тип 'translit'
-            if ($this->config->get('exchange1c_seo_url') == 2) {
+            if ($this->config->get('exchange1c_seo_url')) {
                 $this->setSeoURL('product_id', $product_id, $product['name']);
             }
         }
